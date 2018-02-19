@@ -94,6 +94,7 @@ import com.mapbox.mapboxandroiddemo.labs.IndoorMapActivity;
 import com.mapbox.mapboxandroiddemo.labs.InsetMapActivity;
 import com.mapbox.mapboxandroiddemo.labs.LocationPickerActivity;
 import com.mapbox.mapboxandroiddemo.labs.LosAngelesTourismActivity;
+import com.mapbox.mapboxandroiddemo.labs.MagnifyingGlassActivity;
 import com.mapbox.mapboxandroiddemo.labs.MarkerFollowingRouteActivity;
 import com.mapbox.mapboxandroiddemo.labs.PictureInPictureActivity;
 import com.mapbox.mapboxandroiddemo.labs.RecyclerViewOnMapActivity;
@@ -642,6 +643,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
           R.string.activity_labs_gif_on_map_description,
           new Intent(MainActivity.this, AnimatedImageSourceActivity.class),
           R.string.activity_labs_gif_on_map_url, true, BuildConfig.MIN_SDK_VERSION
+        ));
+
+        exampleItemModels.add(new ExampleItemModel(
+            R.string.activity_labs_magnifying_glass_title,
+            R.string.activity_labs_magnifying_glass_description,
+            new Intent(MainActivity.this, MagnifyingGlassActivity.class),
+            R.string.activity_labs_magnifying_glass_url, true, BuildConfig.MIN_SDK_VERSION
         ));
         currentCategory = R.id.nav_lab;
         break;
