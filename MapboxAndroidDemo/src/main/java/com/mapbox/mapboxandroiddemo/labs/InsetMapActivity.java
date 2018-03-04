@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mapbox.mapboxandroiddemo.R;
+import com.mapbox.mapboxandroiddemo.utils.OnMapMovedFragmentInterface;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -94,10 +95,6 @@ public class InsetMapActivity extends AppCompatActivity implements OnMapReadyCal
     onMapMovedFragmentInterfaceListener = onMapMovedFragmentInterface;
   }
 
-  public interface OnMapMovedFragmentInterface {
-    void onMapMoved(CameraPosition mainMapCameraPosition);
-  }
-
   // Add the mainMapMapView lifecycle to the activity's lifecycle methods
   @Override
   public void onResume() {
@@ -152,7 +149,7 @@ public class InsetMapActivity extends AppCompatActivity implements OnMapReadyCal
    * @see #getMapAsync(OnMapReadyCallback)
    */
   public static class CustomSupportMapFragment extends Fragment implements
-    InsetMapActivity.OnMapMovedFragmentInterface {
+    OnMapMovedFragmentInterface {
 
     private MapView fragmentMap;
     private OnMapReadyCallback onMapReadyCallback;
@@ -281,7 +278,7 @@ public class InsetMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     /**
-     * Called when the fragment is view hiearchy is being destroyed.
+     * Called when the fragment is view hierarchy is being destroyed.
      */
     @Override
     public void onDestroyView() {
