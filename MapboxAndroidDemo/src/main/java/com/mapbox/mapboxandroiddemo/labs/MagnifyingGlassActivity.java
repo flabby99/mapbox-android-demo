@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +30,21 @@ import com.mapbox.mapboxsdk.utils.MapFragmentUtils;
  * Explore a map's details with a fun magnifying glass effect
  */
 
-public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnCameraMoveListener {
+public class MagnifyingGlassActivity extends AppCompatActivity implements
+    OnMapReadyCallback, MapboxMap.OnCameraMoveListener, View.OnDragListener {
 
   private MapView mainMapMapView;
   private MapboxMap mainLargeMapboxMap;
   private OnMapMovedFragmentInterface onMapMovedFragmentInterfaceListener;
+  private int MAGNIFIYING_GLASS_ZOOM_DISTANCE_BETWEEN_MAIN_AND_FRAGMENT_MAPS = 7;
+  private Bundle savedInstanceState;
+  private String TAG = "MagnifyingGlassActivity2";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    this.savedInstanceState = savedInstanceState;
 
     // Mapbox access token is configured here. This needs to be called either in your application
     // object or in the same activity which contains the mapview.
@@ -48,7 +56,11 @@ public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapR
     mainMapMapView = findViewById(R.id.magnifying_glass_base_mapview);
     mainMapMapView.onCreate(savedInstanceState);
     mainMapMapView.getMapAsync(this);
+  }
 
+  @Override
+  public void onMapReady(MapboxMap mapboxMap) {
+    MagnifyingGlassActivity.this.mainLargeMapboxMap = mapboxMap;
     /* Custom version of the regular Mapbox SupportMapFragment class. A custom one is being built here
     so that the interface call backs can be used in the appropriate places so that the example eventually
     works*/
@@ -60,7 +72,7 @@ public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapR
 
       // Build map fragment options
       MapboxMapOptions options = new MapboxMapOptions();
-      options.styleUrl(Style.MAPBOX_STREETS);
+      options.styleUrl(Style.SATELLITE_STREETS);
       options.attributionEnabled(false);
       options.logoEnabled(false);
       options.compassEnabled(false);
@@ -68,10 +80,10 @@ public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapR
       options.tiltGesturesEnabled(false);
       options.rotateGesturesEnabled(false);
       options.camera(new CameraPosition.Builder()
-          .target(new LatLng(11.302318, 106.025839))
-          .zoom(2)
+          .target(new LatLng(40.73581, -73.99155))
+          .zoom(mainLargeMapboxMap.getCameraPosition().zoom +
+              MAGNIFIYING_GLASS_ZOOM_DISTANCE_BETWEEN_MAIN_AND_FRAGMENT_MAPS)
           .build());
-
       // Create map fragment and pass through map options
       customSupportMapFragment = CustomSupportMapFragment.newInstance(options);
 
@@ -79,16 +91,31 @@ public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapR
       transaction.add(R.id.magnifying_glass_fragment_container, customSupportMapFragment, "com.mapbox.fragmentMap");
       transaction.commit();
 
+      findViewById(R.id.magnifying_glass_fragment_container).setOnDragListener(this);
+
     } else {
       customSupportMapFragment = (CustomSupportMapFragment)
           getSupportFragmentManager().findFragmentByTag("com.mapbox.fragmentMap");
     }
+    mainLargeMapboxMap.addOnCameraMoveListener(this);
   }
 
   @Override
-  public void onMapReady(MapboxMap mapboxMap) {
-    MagnifyingGlassActivity.this.mainLargeMapboxMap = mapboxMap;
-    mainLargeMapboxMap.addOnCameraMoveListener(this);
+  public boolean onDrag(View view, DragEvent event) {
+
+    Log.d(TAG, "onDrag: view = " + view.getTag().toString());
+
+    view.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view1) {
+        Log.d(TAG, "onClick: Clicked on view1. view1 = " + view1.getTag().toString());
+
+      }
+    });
+
+
+
+    return false;
   }
 
   @Override
@@ -156,7 +183,7 @@ public class MagnifyingGlassActivity extends AppCompatActivity implements OnMapR
     private MapView fragmentMap;
     private OnMapReadyCallback onMapReadyCallback;
     private CameraPosition cameraPositionForFragmentMap;
-    private static final int ZOOM_DISTANCE_BETWEEN_MAIN_AND_FRAGMENT_MAPS = 3;
+    private static final int ZOOM_DISTANCE_BETWEEN_MAIN_AND_FRAGMENT_MAPS = 8;
 
     /**
      * Creates a CustomSupportMapFragment instance
