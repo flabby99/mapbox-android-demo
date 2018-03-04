@@ -55,7 +55,7 @@ import com.mapbox.mapboxandroiddemo.examples.extrusions.MarathonExtrusionActivit
 import com.mapbox.mapboxandroiddemo.examples.extrusions.PopulationDensityExtrusionActivity;
 import com.mapbox.mapboxandroiddemo.examples.extrusions.RotationExtrusionActivity;
 import com.mapbox.mapboxandroiddemo.examples.mas.DirectionsActivity;
-import com.mapbox.mapboxandroiddemo.examples.mas.DirectionsMatrixApiActivity;
+import com.mapbox.mapboxandroiddemo.examples.mas.MatrixApiActivity;
 import com.mapbox.mapboxandroiddemo.examples.mas.MapMatchingActivity;
 import com.mapbox.mapboxandroiddemo.examples.mas.OptimizationActivity;
 import com.mapbox.mapboxandroiddemo.examples.mas.SimplifyPolylineActivity;
@@ -65,8 +65,8 @@ import com.mapbox.mapboxandroiddemo.examples.offline.SimpleOfflineMapActivity;
 import com.mapbox.mapboxandroiddemo.examples.plugins.BuildingPluginActivity;
 import com.mapbox.mapboxandroiddemo.examples.plugins.GeoJsonPluginActivity;
 import com.mapbox.mapboxandroiddemo.examples.plugins.LocationPluginActivity;
-import com.mapbox.mapboxandroiddemo.examples.plugins.PlacesPluginActivity;
 import com.mapbox.mapboxandroiddemo.examples.plugins.MarkerClustersPluginActivity;
+import com.mapbox.mapboxandroiddemo.examples.plugins.PlacesPluginActivity;
 import com.mapbox.mapboxandroiddemo.examples.plugins.TrafficPluginActivity;
 import com.mapbox.mapboxandroiddemo.examples.query.ClickOnLayerActivity;
 import com.mapbox.mapboxandroiddemo.examples.query.FeatureCountActivity;
@@ -563,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         exampleItemModels.add(new ExampleItemModel(
           R.string.activity_mas_maxtrix_api_title,
           R.string.activity_mas_matrix_api_description,
-          new Intent(MainActivity.this, DirectionsMatrixApiActivity.class),
+          new Intent(MainActivity.this, MatrixApiActivity.class),
           R.string.activity_mas_matrix_url));
         currentCategory = R.id.nav_mas;
         break;
